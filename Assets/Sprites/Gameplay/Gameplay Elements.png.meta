@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7804be6dffdbdaf4e9b99658be86dd42
-timeCreated: 1474474020
+timeCreated: 1474475556
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,10 +8,10 @@ TextureImporter:
     21300002: Life
     21300004: Button Quit Game
     21300006: Coin
-    21300008: Cloud_1
-    21300010: Cloud_2
+    21300008: Cloud 1
+    21300010: Cloud 2
     21300012: Button Pause
-    21300014: Cloud_3
+    21300014: Cloud 3
     21300016: Dark Cloud
     21300018: Score UI
     21300020: Ready To Play The Game
@@ -116,7 +116,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Cloud_1
+      name: Cloud 1
       rect:
         serializedVersion: 2
         x: 7
@@ -129,7 +129,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Cloud_2
+      name: Cloud 2
       rect:
         serializedVersion: 2
         x: 11
@@ -155,7 +155,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Cloud_3
+      name: Cloud 3
       rect:
         serializedVersion: 2
         x: 8
