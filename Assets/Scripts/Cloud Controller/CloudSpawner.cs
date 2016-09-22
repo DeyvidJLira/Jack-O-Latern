@@ -3,31 +3,28 @@ using System.Collections;
 
 public class CloudSpawner : MonoBehaviour {
 
-    // Transform parent for clouds
-    public Transform m_CloudsContainer;
-	// Prefabs of the clouds
-	[SerializeField]
-	private GameObject[] m_Clouds;
-	// Bound of the clouds
-	private int m_QuantityBoundCloud;
-	// Array of clouds for instantiate
-	private GameObject[] m_CloudsInstantiate;
+    // Clouds
+    [SerializeField]
+    private GameObject[] m_Clouds;
 	// Distance vertical between clouds
 	private float m_DistanceBetweenClouds = 3f;
 	// Minimum and maximum of the position horizontal
 	private float m_MinX, m_MaxX;
 	// Control position x to be generated
-	private int m_ControlX;
+	private int m_ControlX = 0;
 	// Position vertical of the last cloud
 	private float m_LastCloudPositionY;
+    // Player
+    private GameObject m_Player;
 
 	void Awake() {
 		SetMinAndMaxX ();
-	}
+        GenerateClouds();
+    }
 
 	// Use this for initialization
 	void Start () {
-		GenerateClouds ();
+		
 	}
 	
 	// Update is called once per frame
@@ -44,24 +41,23 @@ public class CloudSpawner : MonoBehaviour {
 	}
 
 	// Shuffle a array of the game object and return array generated
-	GameObject[] Shuffle(GameObject[] arrayToShuffle) {
-		for (int i = 0; i < arrayToShuffle.Length; i++) {
-			GameObject temp = arrayToShuffle [i];
-			int random = Random.Range (i, arrayToShuffle.Length);
-			arrayToShuffle [i] = arrayToShuffle [random];
-			arrayToShuffle [random] = temp;
-		}
-		return arrayToShuffle;
+	void Shuffle(GameObject[] arrayToShuffle) {
+        for (int i = 0; i < arrayToShuffle.Length; i++) {
+            GameObject temp = arrayToShuffle[i];
+            int random = Random.Range(i, arrayToShuffle.Length);
+            arrayToShuffle[i] = arrayToShuffle[random];
+            arrayToShuffle[random] = temp;
+        }
 	}
 
 	// Generate clouds
 	void GenerateClouds() {
-		m_CloudsInstantiate = Shuffle(m_Clouds);
+		Shuffle(m_Clouds);
 
 		float positionY = 0f;
 
-		for (int i = 0; i < m_CloudsInstantiate.Length; i++) {
-			Vector3 position = new Vector3 (0, 0, 0);
+		for (int i = 0; i < m_Clouds.Length; i++) {
+            Vector3 position = m_Clouds[i].transform.position;
 
 			position.y = positionY;
 
@@ -80,8 +76,8 @@ public class CloudSpawner : MonoBehaviour {
 			}
 
 			m_LastCloudPositionY = position.y;
-	
-			Instantiate (m_CloudsInstantiate[i], position, Quaternion.identity, m_CloudsContainer);
+
+            m_Clouds[i].transform.position = position;
 
 			positionY -= m_DistanceBetweenClouds;
 		}
