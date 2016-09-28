@@ -13,9 +13,9 @@ public class PlayerScore : MonoBehaviour {
     private Vector3 m_PreviousPosition;
     private bool m_CanCountScore;
 
-    public int m_ScoreCount = 0;
-    public int m_LifeCount;
-    public int m_CoinCount;
+    public static int m_ScoreCount = 0;
+    public static int m_LifeCount;
+    public static int m_CoinCount;
 
     void Awake() {
         m_CameraBehavior = Camera.main.GetComponent<CameraBehavior>();
