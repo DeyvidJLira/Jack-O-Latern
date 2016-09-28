@@ -8,7 +8,7 @@ public class CameraBehavior : MonoBehaviour {
     private float m_SpeedMax = 3.2f;
 
     [HideInInspector]
-    private bool m_CanMoveCamera;
+    public bool m_CanMoveCamera;
 
 	// Use this for initialization
 	void Start () {
