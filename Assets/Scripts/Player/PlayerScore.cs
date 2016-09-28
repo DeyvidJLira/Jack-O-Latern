@@ -3,21 +3,19 @@ using System.Collections;
 
 public class PlayerScore : MonoBehaviour {
 
-    [SerializeField]
-    private AudioClip m_LifeSoundEffect;
-    [SerializeField]
-    private AudioClip m_CoinSoundEffect;    
-
     private CameraBehavior m_CameraBehavior;
 
     private Vector3 m_PreviousPosition;
     private bool m_CanCountScore;
 
-    public static int m_ScoreCount = 0;
-    public static int m_LifeCount;
-    public static int m_CoinCount;
+    public int m_ScoreCount { get; private set; }
+    public int m_LifeCount { get; private set; }
+    public int m_CoinCount { get; private set; }
 
     void Awake() {
+        m_ScoreCount = 0;
+        m_LifeCount = 1;
+        m_CoinCount = 0;
         m_CameraBehavior = Camera.main.GetComponent<CameraBehavior>();
     }
 
@@ -42,19 +40,8 @@ public class PlayerScore : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D target) {
-        if(target.tag == "Coin") {
-            m_CoinCount++;
-            m_ScoreCount += 100;
-
-            AudioSource.PlayClipAtPoint(m_CoinSoundEffect, transform.position);
-            target.gameObject.SetActive(false);
-        }
-        if(target.tag == "Life") {
-            m_LifeCount++;
-            m_ScoreCount += 200;
-
-            AudioSource.PlayClipAtPoint(m_LifeSoundEffect, transform.position);
-            target.gameObject.SetActive(false);
+        if(target.tag == "Collectable") {
+            target.GetComponent<ICollectable>().Collected(gameObject);
         }
 
         if(target.tag == "Bound") {
@@ -72,5 +59,24 @@ public class PlayerScore : MonoBehaviour {
             transform.position = new Vector3(500, 500, 0);
             m_LifeCount--;
         }
+    }
+
+    public void IncreaseScore(int points) {
+        m_ScoreCount += points;
+    }
+
+    public void IncreaseCoin(int points) {
+        m_CoinCount += points;
+    }
+
+    public void DecreaseCoin(int points) {
+        m_CoinCount -= points;
+    }
+
+    public void IncreaseLife(int points) {
+        if (m_LifeCount < 2)
+            m_LifeCount += points;
+        if (m_LifeCount > 2)
+            m_LifeCount = 2;
     }
 }

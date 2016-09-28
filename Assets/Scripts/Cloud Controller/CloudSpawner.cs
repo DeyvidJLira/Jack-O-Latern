@@ -14,14 +14,24 @@ public class CloudSpawner : MonoBehaviour {
     private int m_ControlX;
 	// Position vertical of the last cloud
 	private float m_LastCloudPositionY;
+    // Collectable items
+    [SerializeField]
+    private GameObject[] m_Collectables;
     // Player
     private GameObject m_Player;
+    // Player Score
+    private PlayerScore m_PlayerScore;
 
 	void Awake() {
         m_ControlX = 0;
 		SetMinAndMaxX ();
         GenerateClouds();
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_PlayerScore = m_Player.GetComponent<PlayerScore>();
+
+        for(int i = 0; i < m_Collectables.Length; i++) {
+            m_Collectables[i].SetActive(false);
+        }
     }
 
 	// Use this for initialization
@@ -140,6 +150,25 @@ public class CloudSpawner : MonoBehaviour {
 
                         m_Clouds[i].transform.position = position;
                         m_Clouds[i].SetActive(true);
+
+                        int random = Random.Range(0, m_Collectables.Length);
+
+                        if (m_Clouds[i].tag != "DarkCloud") {
+                            if(!m_Collectables[random].activeInHierarchy) {
+                                Vector3 temp = m_Clouds[i].transform.position;
+                                temp.y += 0.7f;
+
+                                if(m_Collectables[random].tag == "Life") {
+                                    if(m_PlayerScore.m_LifeCount < 2) {
+                                        m_Collectables[random].transform.position = temp;
+                                        m_Collectables[random].SetActive(true);
+                                    }
+                                } else {
+                                    m_Collectables[random].transform.position = temp;
+                                    m_Collectables[random].SetActive(true);
+                                }
+                            }
+                        }
                     }
                 }
 
