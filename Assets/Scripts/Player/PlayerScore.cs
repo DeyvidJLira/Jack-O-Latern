@@ -13,10 +13,16 @@ public class PlayerScore : MonoBehaviour {
     public int m_CoinCount { get; private set; }
 
     void Awake() {
+        m_CameraBehavior = Camera.main.GetComponent<CameraBehavior>();
+    }
+
+    void Initialize() {
         m_ScoreCount = 0;
         m_LifeCount = 1;
         m_CoinCount = 0;
-        m_CameraBehavior = Camera.main.GetComponent<CameraBehavior>();
+        GameplayController.m_Instance.UpdateScoreText(m_ScoreCount);
+        GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
+        GameplayController.m_Instance.UpdateCoinText(m_CoinCount);
     }
 
 	// Use this for initialization
@@ -33,7 +39,7 @@ public class PlayerScore : MonoBehaviour {
     void IncreaseScore() {
         if(m_CanCountScore) {
             if(transform.position.y < m_PreviousPosition.y) {
-                m_ScoreCount++;
+                IncreaseScore(1);
             }
             m_PreviousPosition = transform.position;
         }
@@ -45,32 +51,35 @@ public class PlayerScore : MonoBehaviour {
         }
 
         if(target.tag == "Bound") {
-            m_CameraBehavior.m_CanMoveCamera = false;
-            m_CanCountScore = false;
-
-            transform.position = new Vector3(500, 500, 0);
-            m_LifeCount--;
+            Died();
         }
 
         if(target.tag == "DarkCloud") {
-            m_CameraBehavior.m_CanMoveCamera = false;
-            m_CanCountScore = false;
-
-            transform.position = new Vector3(500, 500, 0);
-            m_LifeCount--;
+            Died();
         }
+    }
+
+    public void Died() {
+        m_CameraBehavior.m_CanMoveCamera = false;
+        m_CanCountScore = false;
+
+        transform.position = new Vector3(500, 500, 0);
+        DecreaseLife();
     }
 
     public void IncreaseScore(int points) {
         m_ScoreCount += points;
+        GameplayController.m_Instance.UpdateScoreText(m_ScoreCount);
     }
 
     public void IncreaseCoin(int points) {
         m_CoinCount += points;
+        GameplayController.m_Instance.UpdateCoinText(m_CoinCount);
     }
 
     public void DecreaseCoin(int points) {
         m_CoinCount -= points;
+        GameplayController.m_Instance.UpdateCoinText(m_CoinCount);
     }
 
     public void IncreaseLife(int points) {
@@ -78,5 +87,11 @@ public class PlayerScore : MonoBehaviour {
             m_LifeCount += points;
         if (m_LifeCount > 2)
             m_LifeCount = 2;
+        GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
+    }
+
+    public void DecreaseLife() {
+        m_LifeCount--;
+        GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
     }
 }
