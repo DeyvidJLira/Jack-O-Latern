@@ -3,14 +3,9 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MainMenuController : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	public void StartGame() {
-        SceneManager.LoadScene("Gameplay");
+        GameManager.m_Instance.NewGame();
     }
 
     public void Highscore() {

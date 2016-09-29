@@ -61,12 +61,6 @@ public class GameplayController : MonoBehaviour {
         m_PanelGameOver.SetActive(true);
         m_GameOverScoreText.text = finalScore.ToString();
         m_GameOverCoinText.text = finalCoinScore.ToString();
-        StartCoroutine(GameOverLoadMainMenu());
-    }
-
-    IEnumerator GameOverLoadMainMenu() {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("MainMenu");
     }
 
 }

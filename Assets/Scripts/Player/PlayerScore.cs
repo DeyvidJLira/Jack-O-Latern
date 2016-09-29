@@ -17,9 +17,9 @@ public class PlayerScore : MonoBehaviour {
     }
 
     void Initialize() {
-        m_ScoreCount = 0;
-        m_LifeCount = 1;
-        m_CoinCount = 0;
+        m_ScoreCount = GameManager.m_Instance.m_ScorePlayer;
+        m_LifeCount = GameManager.m_Instance.m_LifePlayer;
+        m_CoinCount = GameManager.m_Instance.m_CoinPlayer;
         GameplayController.m_Instance.UpdateScoreText(m_ScoreCount);
         GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
         GameplayController.m_Instance.UpdateCoinText(m_CoinCount);
@@ -27,6 +27,7 @@ public class PlayerScore : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Initialize();
         m_PreviousPosition = transform.position;
         m_CanCountScore = true;
 	}
@@ -94,7 +95,9 @@ public class PlayerScore : MonoBehaviour {
         m_LifeCount--;
         GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
         if(m_LifeCount <= 0) {
-            GameplayController.m_Instance.GameOver(m_ScoreCount, m_CoinCount);
+            GameManager.m_Instance.GameOver();
+        } else {
+            GameManager.m_Instance.Restart();
         }
     }
 }
