@@ -8,6 +8,9 @@ public class GameplayController : MonoBehaviour {
     public static GameplayController m_Instance;
 
     [SerializeField]
+    private Button m_ButtonReady;
+
+    [SerializeField]
     private Text m_LifeText, m_CoinText, m_ScoreText, m_GameOverScoreText, m_GameOverCoinText;
 
     [SerializeField]
@@ -16,6 +19,7 @@ public class GameplayController : MonoBehaviour {
     void Awake() {
         if(m_Instance == null) {
             m_Instance = this;
+            Time.timeScale = 0f;
         } else {
             Destroy(this);
         }
@@ -31,6 +35,11 @@ public class GameplayController : MonoBehaviour {
 
     public void UpdateScoreText(int newValue) {
         m_ScoreText.text = "" + newValue;
+    }
+
+    public void StartGame() {
+        m_ButtonReady.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     public void PauseGame() {
