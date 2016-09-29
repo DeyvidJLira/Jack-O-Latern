@@ -93,5 +93,8 @@ public class PlayerScore : MonoBehaviour {
     public void DecreaseLife() {
         m_LifeCount--;
         GameplayController.m_Instance.UpdateLifeText(m_LifeCount);
+        if(m_LifeCount <= 0) {
+            GameplayController.m_Instance.GameOver(m_ScoreCount, m_CoinCount);
+        }
     }
 }
