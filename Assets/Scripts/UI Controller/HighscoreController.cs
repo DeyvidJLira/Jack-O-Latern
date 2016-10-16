@@ -8,9 +8,12 @@ public class HighscoreController : MonoBehaviour {
     [SerializeField]
     private Text m_HighscoreText, m_CoinHighscoreText;
 
-	// Use this for initialization
-	void Start () {
-        SetHighscore(GamePreferencesManager.m_Instance.m_Highscore, GamePreferencesManager.m_Instance.m_Coin_Highscore);
+    private Animator animator;
+
+    // Use this for initialization
+    void Start () {
+        animator = GameObject.Find("Canvas").GetComponent<Animator>();
+        SetHighscore(GamePreferencesManager.m_Instance.m_Highscore, GamePreferencesManager.m_Instance.m_Coin_Highscore); 
     }
 
     void SetHighscore(int highscore, int coinHighscore) {
@@ -19,6 +22,7 @@ public class HighscoreController : MonoBehaviour {
     }
 	
     public void BackToMainMenu() {
-        SceneManager.LoadScene("MainMenu");
+        animator.SetBool("IsCallHighScore", false);
+        animator.SetTrigger("ExitHighscore");
     }
 }
