@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float m_Speed = 8f;
 	public float m_MaxVelocity = 4f;
 	public bool m_IsFaceRight = true;
+    public GameObject m_GroundVerify;
 
 	private SpriteRenderer m_SpriteRenderer;
 	private Rigidbody2D m_Rigidbody;
@@ -28,7 +29,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate () {
 		MoveKeyboard ();
-	}
+        CharacterIsFalling();
+    }
 
 	void MoveKeyboard() {
 		float forceX = 0f;
@@ -43,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
 			if (velocity < m_MaxVelocity)
 				forceX = m_Speed;
 
-			m_Animator.SetBool ("isWalking", true);
+			m_Animator.SetBool ("isRunning", true);
 		} else if (directionHorizontal < 0) {
 			if (m_IsFaceRight)
 				TurnFace ();
@@ -52,13 +54,25 @@ public class PlayerMovement : MonoBehaviour {
 			if (velocity < m_MaxVelocity)
 				forceX = -m_Speed;
 
-			m_Animator.SetBool ("isWalking", true);
+			m_Animator.SetBool ("isRunning", true);
 		} else {
-			m_Animator.SetBool ("isWalking", false);
+			m_Animator.SetBool ("isRunning", false);
 		}
 
 		m_Rigidbody.AddForce (new Vector2 (forceX, 0));
 	}
+
+    void CharacterIsFalling() {
+        bool inGround = Physics2D.Linecast(
+            transform.position,
+            m_GroundVerify.transform.position,
+            1 << LayerMask.NameToLayer("Ground"));
+        if (!inGround) {
+            m_Animator.SetBool("isFall", true);
+        } else {
+            m_Animator.SetBool("isFall", false);
+        }
+    }
 
 	void TurnFace() {
 		m_SpriteRenderer.flipX = m_IsFaceRight;
