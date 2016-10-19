@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CloudSpawner : MonoBehaviour {
+public class GroundSpawner : MonoBehaviour {
 
-    // Clouds
+    // Grounds
     [SerializeField]
-    private GameObject[] m_Clouds;
-	// Distance vertical between clouds
-	private float m_DistanceBetweenClouds = 3f;
+    private GameObject[] m_Grounds;
+	// Distance vertical between grounds
+	private float m_DistanceBetweenGrounds = 3f;
 	// Minimum and maximum of the position horizontal
 	private float m_MinX, m_MaxX;
     // Control position x to be generated
     private int m_ControlX;
-	// Position vertical of the last cloud
+	// Position vertical of the last ground
 	private float m_LastCloudPositionY;
     // Collectable items
     [SerializeField]
@@ -25,7 +25,7 @@ public class CloudSpawner : MonoBehaviour {
 	void Awake() {
         m_ControlX = 0;
 		SetMinAndMaxX ();
-        GenerateClouds();
+        GenerateGrounds();
         m_Player = GameObject.FindGameObjectWithTag("Player");
         m_PlayerScore = m_Player.GetComponent<PlayerScore>();
 
@@ -62,14 +62,14 @@ public class CloudSpawner : MonoBehaviour {
         }
 	}
 
-	// Generate clouds
-	void GenerateClouds() {
-		Shuffle(m_Clouds);
+	// Generate grounds
+	void GenerateGrounds() {
+		Shuffle(m_Grounds);
 
 		float positionY = 0f;
 
-		for (int i = 0; i < m_Clouds.Length; i++) {
-            Vector3 position = m_Clouds[i].transform.position;
+		for (int i = 0; i < m_Grounds.Length; i++) {
+            Vector3 position = m_Grounds[i].transform.position;
 
 			position.y = positionY;
 
@@ -89,30 +89,30 @@ public class CloudSpawner : MonoBehaviour {
 
 			m_LastCloudPositionY = position.y;
 
-            m_Clouds[i].transform.position = position;
+            m_Grounds[i].transform.position = position;
 
-			positionY -= m_DistanceBetweenClouds;
+			positionY -= m_DistanceBetweenGrounds;
 		}
 	}
 
     // Position the player in the first cloud
     void PositionThePlayer() {
         GameObject[] darkClouds = GameObject.FindGameObjectsWithTag("DarkCloud");
-        GameObject[] clouds = GameObject.FindGameObjectsWithTag("Cloud");
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag("Ground");
         
         for(int i = 0; i < darkClouds.Length; i++) {
             if(darkClouds[i].transform.position.y == 0f) {
                 Vector3 tempDarkCloudPosition = darkClouds[i].transform.position;
-                darkClouds[i].transform.position = clouds[0].transform.position;
-                clouds[0].transform.position = tempDarkCloudPosition;
+                darkClouds[i].transform.position = grounds[0].transform.position;
+                grounds[0].transform.position = tempDarkCloudPosition;
             }
         }
 
-        Vector3 temp = clouds[0].transform.position;
+        Vector3 temp = grounds[0].transform.position;
 
-        for(int i = 1; i < clouds.Length; i++) {
-            if (temp.y < clouds[i].transform.position.y) {
-                temp = clouds[i].transform.position;
+        for(int i = 1; i < grounds.Length; i++) {
+            if (temp.y < grounds[i].transform.position.y) {
+                temp = grounds[i].transform.position;
             }
         }
 
@@ -122,14 +122,14 @@ public class CloudSpawner : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D target) {
-        if(target.tag == "Cloud" || target.tag == "DarkCloud") {
+        if(target.tag == "Ground" || target.tag == "DarkCloud") {
             if(target.transform.position.y == m_LastCloudPositionY) {
-                Shuffle(m_Clouds);
+                Shuffle(m_Grounds);
 
                 Vector3 position = target.transform.position;
 
-                for(int i = 0; i < m_Clouds.Length; i++) {
-                    if(!m_Clouds[i].activeInHierarchy) {
+                for(int i = 0; i < m_Grounds.Length; i++) {
+                    if(!m_Grounds[i].activeInHierarchy) {
                         if (m_ControlX == 0) {
                             position.x = Random.Range(0.0f, m_MaxX);
                             m_ControlX = 1;
@@ -144,18 +144,18 @@ public class CloudSpawner : MonoBehaviour {
                             m_ControlX = 1;
                         }
 
-                        position.y -= m_DistanceBetweenClouds;
+                        position.y -= m_DistanceBetweenGrounds;
 
                         m_LastCloudPositionY = position.y;
 
-                        m_Clouds[i].transform.position = position;
-                        m_Clouds[i].SetActive(true);
+                        m_Grounds[i].transform.position = position;
+                        m_Grounds[i].SetActive(true);
 
                         int random = Random.Range(0, m_Collectables.Length);
 
-                        if (m_Clouds[i].tag != "DarkCloud") {
+                        if (m_Grounds[i].tag != "DarkCloud") {
                             if(!m_Collectables[random].activeInHierarchy) {
-                                Vector3 temp = m_Clouds[i].transform.position;
+                                Vector3 temp = m_Grounds[i].transform.position;
                                 temp.y += 0.7f;
 
                                 if(m_Collectables[random].tag == "Life") {
