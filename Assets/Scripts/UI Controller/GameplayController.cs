@@ -61,6 +61,13 @@ public class GameplayController : MonoBehaviour {
         m_PanelGameOver.SetActive(true);
         m_GameOverScoreText.text = finalScore.ToString();
         m_GameOverCoinText.text = finalCoinScore.ToString();
+        if(finalScore > GamePreferencesManager.m_Instance.GetHighscore()) 
+            GamePreferencesManager.m_Instance.SetHighscore(finalScore);
+
+        if (finalCoinScore > GamePreferencesManager.m_Instance.GetCoinHighscore())
+            GamePreferencesManager.m_Instance.SetCoinHighscore(finalCoinScore);
+
+    
     }
 
 }

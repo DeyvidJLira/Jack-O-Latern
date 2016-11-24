@@ -5,6 +5,8 @@ public class GamePreferencesManager : MonoBehaviour {
 
     public static GamePreferencesManager m_Instance { get; private set; }
 
+    public bool m_Switched { get; set; }
+
     public LevelDifficulty m_LevelDifficulty { get; private set; }
     public int m_Highscore { get; private set; }
     public int m_Coin_Highscore { get; private set; }
@@ -42,6 +44,7 @@ public class GamePreferencesManager : MonoBehaviour {
         m_LevelDifficulty = levelDifficulty;
         m_Highscore = GetHighscore();
         m_Coin_Highscore = GetCoinHighscore();
+        m_Switched = true;
     }
 
     private void SetDifficultyPref(LevelDifficulty levelDifficulty, int value) {
@@ -65,27 +68,28 @@ public class GamePreferencesManager : MonoBehaviour {
             return LevelDifficulty.MEDIUM;
         if (PlayerPrefs.GetInt(m_DIFFICULTY_HARD, 0) == 1)
             return LevelDifficulty.HARD;
-        return LevelDifficulty.MEDIUM;
+        else 
+            return LevelDifficulty.MEDIUM;
     }
 
     public void SetHighscore(int score) {
-        switch (m_LevelDifficulty) {
-            case LevelDifficulty.EASY:
-                if(score > m_Highscore)
-                PlayerPrefs.SetInt(m_HIGHSCORE_EASY, score);
-                break;
-            case LevelDifficulty.MEDIUM:
-                if (score > m_Highscore)
+        if (score > m_Highscore) {
+            m_Highscore = score;
+            switch (m_LevelDifficulty) {
+                case LevelDifficulty.EASY:
+                    PlayerPrefs.SetInt(m_HIGHSCORE_EASY, score);
+                    break;
+                case LevelDifficulty.MEDIUM:
                     PlayerPrefs.SetInt(m_HIGHSCORE_MEDIUM, score);
-                break;
-            case LevelDifficulty.HARD:
-                if (score > m_Highscore)
+                    break;
+                case LevelDifficulty.HARD:
                     PlayerPrefs.SetInt(m_HIGHSCORE_HARD, score);
-                break;
+                    break;
+            }
         }
     }
 
-    private int GetHighscore() {
+    public int GetHighscore() {
         switch (m_LevelDifficulty) {
             case LevelDifficulty.EASY:
                 return PlayerPrefs.GetInt(m_HIGHSCORE_EASY, 0);
@@ -111,7 +115,24 @@ public class GamePreferencesManager : MonoBehaviour {
         }
     }
 
-    private int GetCoinHighscore() {
+    public void SetCoinHighscore(int coinScore) {
+        if (coinScore > m_Coin_Highscore) {
+            m_Coin_Highscore = coinScore;
+            switch (m_LevelDifficulty) {
+                case LevelDifficulty.EASY:
+                    PlayerPrefs.SetInt(m_COIN_HIGHSCORE_EASY, coinScore);
+                    break;
+                case LevelDifficulty.MEDIUM:
+                    PlayerPrefs.SetInt(m_COIN_HIGHSCORE_MEDIUM, coinScore);
+                    break;
+                case LevelDifficulty.HARD:
+                    PlayerPrefs.SetInt(m_COIN_HIGHSCORE_HARD, coinScore);
+                    break;
+            }
+        }
+    }
+
+    public int GetCoinHighscore() {
         switch (m_LevelDifficulty) {
             case LevelDifficulty.EASY:
                 return PlayerPrefs.GetInt(m_COIN_HIGHSCORE_EASY, 0);

@@ -13,7 +13,18 @@ public class HighscoreController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GameObject.Find("Canvas").GetComponent<Animator>();
-        SetHighscore(GamePreferencesManager.m_Instance.m_Highscore, GamePreferencesManager.m_Instance.m_Coin_Highscore); 
+        UpdateHighscore(); 
+    }
+
+    void Update() {
+        if(GamePreferencesManager.m_Instance.m_Switched) {
+            UpdateHighscore();
+            GamePreferencesManager.m_Instance.m_Switched = false;
+        }
+    }
+
+    void UpdateHighscore() {
+        SetHighscore(GamePreferencesManager.m_Instance.m_Highscore, GamePreferencesManager.m_Instance.m_Coin_Highscore);
     }
 
     void SetHighscore(int highscore, int coinHighscore) {
