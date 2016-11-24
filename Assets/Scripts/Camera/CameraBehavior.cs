@@ -7,11 +7,26 @@ public class CameraBehavior : MonoBehaviour {
     private float m_Acceleration = 0.2f;
     private float m_SpeedMax = 3.2f;
 
+    private float m_EasySpeed = 3.4f;
+    private float m_MediumSpeed = 3.8f;
+    private float m_HardSpeed = 4.2f;
+
     [HideInInspector]
     public bool m_CanMoveCamera;
 
 	// Use this for initialization
 	void Start () {
+        switch (GamePreferencesManager.m_Instance.m_LevelDifficulty) {
+            case LevelDifficulty.EASY:
+                m_SpeedMax = m_EasySpeed;
+                break;
+            case LevelDifficulty.MEDIUM:
+                m_SpeedMax = m_MediumSpeed;
+                break;
+            case LevelDifficulty.HARD:
+                m_SpeedMax = m_HardSpeed;
+                break;
+        }
         m_CanMoveCamera = true;
 	}
 	
