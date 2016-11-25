@@ -23,6 +23,8 @@ public class GamePreferencesManager : MonoBehaviour {
     private const string m_COIN_HIGHSCORE_MEDIUM = "Coin_Highscore_Medium";
     private const string m_COIN_HIGHSCORE_HARD = "Coin_Highscore_Hard";
 
+    private MusicState m_MusicState = MusicState.STOPPED;
+
     void Awake() {
         if(m_Instance == null) {
             m_Instance = this;
@@ -158,10 +160,23 @@ public class GamePreferencesManager : MonoBehaviour {
         }
     }
 
+    public MusicState GetMusicState() {
+        return m_MusicState;
+    }
+
+    public void SetMusicState(MusicState musicState) {
+        m_MusicState = musicState;
+    }
+
 }
 
 public enum LevelDifficulty {
     EASY,
     MEDIUM,
     HARD
+}
+
+public enum MusicState {
+    PLAYING,
+    STOPPED
 }
