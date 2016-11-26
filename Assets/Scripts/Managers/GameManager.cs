@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
         m_ScorePlayer = 0;
         m_LifePlayer = 2;
         m_CoinPlayer = 0;
-        SceneManager.LoadScene("Gameplay");
+        SceneFaderController.m_Instance.LoadScene("Gameplay");
     }
 
     public void Restart() {
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator RestartGame() {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Gameplay");
+        SceneFaderController.m_Instance.LoadScene("Gameplay");
     }
 
     public void GameOver() {
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator GameOverLoadMainMenu() {
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("MainMenu");
+        SceneFaderController.m_Instance.LoadScene("MainMenu");
     }
 
 }

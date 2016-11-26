@@ -54,7 +54,7 @@ public class GameplayController : MonoBehaviour {
 
     public void QuitGame() {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        SceneFaderController.m_Instance.LoadScene("MainMenu");
     }
 
     public void GameOver(int finalScore, int finalCoinScore) {
