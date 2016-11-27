@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-	void TurnFace() {
+	public void TurnFace() {
 		m_SpriteRenderer.flipX = m_IsFaceRight;
 		m_IsFaceRight = !m_IsFaceRight;
 	}
