@@ -28,7 +28,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		MoveKeyboard ();
+        #if UNITY_STANDALONE
+        MoveKeyboard ();
+        #endif
         CharacterIsFalling();
     }
 
