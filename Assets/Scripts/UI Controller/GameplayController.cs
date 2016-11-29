@@ -43,6 +43,8 @@ public class GameplayController : MonoBehaviour {
     }
 
     public void PauseGame() {
+        if (GameManager.m_Instance.m_State == GameManager.GameState.GAMEOVER)
+            return;
         Time.timeScale = 0f;
         m_PanelPause.SetActive(true);
     }

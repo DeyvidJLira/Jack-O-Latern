@@ -10,6 +10,13 @@ public class GameManager : MonoBehaviour {
     public int m_LifePlayer { get; private set; }
     public int m_CoinPlayer{ get; private set; }
 
+    public enum GameState {
+        GAMEPLAY,
+        GAMEOVER
+    }
+
+    public GameState m_State { get; private set; }
+
     void Awake() {
         if(m_Instance == null) {
             m_Instance = this;
@@ -24,6 +31,7 @@ public class GameManager : MonoBehaviour {
         m_LifePlayer = 2;
         m_CoinPlayer = 0;
         SceneFaderController.m_Instance.LoadScene("Gameplay");
+        m_State = GameState.GAMEPLAY;
     }
 
     public void Restart() {
@@ -37,9 +45,11 @@ public class GameManager : MonoBehaviour {
     IEnumerator RestartGame() {
         yield return new WaitForSeconds(2f);
         SceneFaderController.m_Instance.LoadScene("Gameplay");
+        m_State = GameState.GAMEPLAY;
     }
 
     public void GameOver() {
+        m_State = GameState.GAMEOVER;
         PlayerScore playerScore = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScore>();
         GameplayController.m_Instance.GameOver(playerScore.m_ScoreCount, playerScore.m_CoinCount);
         StartCoroutine(GameOverLoadMainMenu());
@@ -49,5 +59,4 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(3f);
         SceneFaderController.m_Instance.LoadScene("MainMenu");
     }
-
 }
