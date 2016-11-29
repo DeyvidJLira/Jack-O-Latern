@@ -11,10 +11,10 @@ public class MainMenuController : MonoBehaviour {
     [SerializeField]
     private Sprite[] m_MusicIcons;
 
-    private Animator animator;
+    [SerializeField]
+    private Animator _animator;
 
     void Start() {
-        animator = GameObject.Find("Canvas").GetComponent<Animator>();
         CheckToPlayMusic();
     }
 
@@ -33,13 +33,13 @@ public class MainMenuController : MonoBehaviour {
     }
 
     public void Highscore() {
-        animator.SetTrigger("ExitMenu");
-        animator.SetBool("IsCallHighScore", true);
+        _animator.SetTrigger("ExitMenu");
+        _animator.SetBool("IsCallHighScore", true);
     }
 
     public void Options() {
-        animator.SetTrigger("ExitMenu");
-        animator.SetBool("IsCallOptions", true);
+        _animator.SetTrigger("ExitMenu");
+        _animator.SetBool("IsCallOptions", true);
     }
 
     public void QuitGame() {

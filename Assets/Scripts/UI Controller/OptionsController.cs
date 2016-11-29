@@ -7,13 +7,14 @@ public class OptionsController : MonoBehaviour {
     [SerializeField]
     private GameObject m_EasySign, m_MediumSign, m_HardSign;
 
-    private Animator animator;
+    [SerializeField]
+    private Animator _animator;
+
     private GameObject m_LastActived = null;
 
 
 	// Use this for initialization
 	void Start () {
-        animator = GameObject.Find("Canvas").GetComponent<Animator>();
         m_LastActived = SetDifficulty(GamePreferencesManager.m_Instance.m_LevelDifficulty);
 	}
 
@@ -50,7 +51,7 @@ public class OptionsController : MonoBehaviour {
     }
 
     public void BackToMainMenu() {
-        animator.SetBool("IsCallOptions", false);
-        animator.SetTrigger("ExitOptions");
+        _animator.SetBool("IsCallOptions", false);
+        _animator.SetTrigger("ExitOptions");
     }
 }

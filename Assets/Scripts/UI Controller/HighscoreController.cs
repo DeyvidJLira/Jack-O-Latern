@@ -8,11 +8,11 @@ public class HighscoreController : MonoBehaviour {
     [SerializeField]
     private Text m_HighscoreText, m_CoinHighscoreText;
 
-    private Animator animator;
+    [SerializeField]
+    private Animator _animator;
 
     // Use this for initialization
     void Start () {
-        animator = GameObject.Find("Canvas").GetComponent<Animator>();
         UpdateHighscore(); 
     }
 
@@ -33,7 +33,7 @@ public class HighscoreController : MonoBehaviour {
     }
 	
     public void BackToMainMenu() {
-        animator.SetBool("IsCallHighScore", false);
-        animator.SetTrigger("ExitHighscore");
+        _animator.SetBool("IsCallHighScore", false);
+        _animator.SetTrigger("ExitHighscore");
     }
 }
